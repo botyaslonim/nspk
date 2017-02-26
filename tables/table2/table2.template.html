@@ -1,0 +1,68 @@
+<header class="main-table-header">
+    <div class="row">
+        <div class="col-lg-12">
+            <form>
+                <button type="button" ng-repeat="buttons in $ctrl.buttons" ng-click="$ctrl.buttonAction(buttons.id)" ng-disabled="buttons.disabled == 1" class="{{buttons.bootstrapClass}} {{buttons.view}}">
+                    <span ng-if="buttons.id == 1">Текущий операционный день ({{$root.currentDay}})</span>
+                    <span ng-if="buttons.id != 1">{{buttons.text}}</span>
+                </button>
+            </form>
+        </div>       
+    </div>
+</header>
+<div ng-if="$ctrl.table">
+    <table id="data-table" class="table table-bordered table-hover tablesorter">
+        <thead id="data-table-head">
+            <tr>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('createDate')" ng-class="$ctrl.sortClass('createDate')">
+                    Дата и время загрузки в систему файла Бэк-офиса
+                 </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('cpd')" ng-class="$ctrl.sortClass('cpd')">
+                    CPD
+                 </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('fileName')" ng-class="$ctrl.sortClass('fileName')">
+                    Имя файла Бэк-офиса
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('scheme')" ng-class="$ctrl.sortClass('scheme')">
+                    ПС
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('registerItemsQuantity')" ng-class="$ctrl.sortClass('registerItemsQuantity')">
+                    Количество позиций в файле
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('registerDebetSum')" ng-class="$ctrl.sortClass('registerDebetSum')">
+                    Сумма дебетовых оборотов
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('registerCreditSum')" ng-class="$ctrl.sortClass('registerCreditSum')">
+                    Сумма кредитовых оборотов
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('status')" ng-class="$ctrl.sortClass('status')">
+                    Статус файла Бэк-офиса<br/><small>(количество ошибок)</small>
+                </th>
+                <th>
+                    Документ
+                </th>
+            </tr>           
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in $ctrl.table | orderBy:$ctrl.orderProp" data="row-{{row.id}}" ng-class="{{row.error}} ? 'danger' : ''">
+                <td>{{row.createDate}}</td>
+                <td>{{row.cpd}}</td>
+                <td>{{row.fileName}}</td>
+                <td>{{row.scheme}}</td>
+                <td>{{row.registerItemsQuantity}}</td>
+                <td>{{row.registerDebetSum}}</td>
+                <td>{{row.registerCreditSum}}</td>
+                <td>{{row.status}}<small ng-if="row.error && row.errorCount"> ({{row.errorCount}})</small></td>
+                <td class="get-document"><a class="btn btn-default" href="" ng-click="$ctrl.getDocument(row.id, row.fileName)" role="button">Посмотреть</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-if="$ctrl.isLongTime" class="common-wait">
+    <img src="img/loading.gif" />Нужно немного подождать</div>    
+</div>
+<div ng-if="$ctrl.isTimeout" class="common-wait">
+    <p>К сожалению, нет связи с сервером</p>
+    <p><a href="" ng-click="$root.reload()" title="Перезагрузка" class="btn btn-default btn-lg" role="button">Попробовать ещё раз</a></p>    
+</div>
+

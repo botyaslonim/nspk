@@ -1,0 +1,57 @@
+<header class="main-table-header">
+    <div class="row">
+        <div class="col-lg-8">
+            <form>
+                <button type="button" ng-repeat="buttons in $ctrl.buttons" ng-click="$ctrl.buttonAction(buttons.id)" ng-disabled="buttons.disabled == 1" class="{{buttons.bootstrapClass}} {{buttons.view}}">
+                    <span ng-if="buttons.id == 1">Текущий операционный день ({{$root.currentDay}})</span>
+                    <span ng-if="buttons.id != 1">{{buttons.text}}</span>
+                </button>
+            </form>
+        </div>
+        <div class="col-lg-4">
+            <button type="button" class="pull-right table1button btn btn-lg btn-primary" ng-click="$ctrl.sendFiles()" ng-disabled="$ctrl.getIfChosen()">Загрузить в x3x выбранные ED231 из АРМ КБР</button>         
+        </div>    
+    </div>    
+</header>
+<div ng-if="$ctrl.table">
+    <table id="data-table" class="table table-bordered table-hover tablesorter">
+        <thead id="data-table-head">
+            <tr>
+                <th>
+                    №
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('fileName')" ng-class="$ctrl.sortClass('fileName')">
+                    ED231
+                 </th>
+                <th class="th-sortable no-sc fixed-40" ng-click="$ctrl.sort('status')" ng-class="$ctrl.sortClass('status')">
+                    Контроль
+                </th>            
+            </tr>           
+        </thead>
+        <tbody>    
+            <tr class="condensed">
+                <td class="border-only-left"></td>
+                <td class="borderless"></td>
+                <td class="border-only-right"><small><a href="" title="Отметить все пункты" ng-click="$ctrl.chooseAll()">{{$ctrl.chooseAllText}}</a></small></td>
+            </tr>    
+            <tr ng-repeat="row in $ctrl.table | orderBy:$ctrl.orderProp">
+                <td>{{$index+1}}</td>
+                <td>{{row.fileName}}</td>     
+                <div ng-switch on="row.status">
+                    <td ng-if="row.status == 'OK'" class="success">OK</td>              
+                    <td ng-if="row.status == 'FORMATERROR'" class="danger">Не соответствует xsd-схеме</td>    
+                    <td ng-if="row.status == 'ERROR'" class="danger">Ошибка</td>   
+                    <td ng-if="row.status == 'NOED230'" class="warning">Не найден исходный ED230</td>  
+                    <td ng-if="row.status != 'OK' && row.status != 'FORMATERROR' && row.status != 'ERROR' && row.status != 'NOED230'"><form><input type="checkbox" ng-checked="row.ifChecked" ng-click="$ctrl.chooseFile(row.fileName, $index)"/></form></td>
+                </div>            
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-if="$ctrl.isLongTime" class="common-wait">
+    <img src="img/loading.gif" />Нужно немного подождать</div>    
+</div>
+<div ng-if="$ctrl.isTimeout" class="common-wait">
+    <p>К сожалению, нет связи с сервером</p>
+    <p><a href="" ng-click="$root.reload()" title="Перезагрузка" class="btn btn-default btn-lg" role="button">Попробовать ещё раз</a></p>    
+</div>

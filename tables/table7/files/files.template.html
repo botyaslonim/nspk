@@ -1,0 +1,51 @@
+<header class="main-table-header">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="#!/table/7">Контроль итогов обработки ED230</a></li>                
+            </ol> 
+        </div>
+    </div>
+</header>
+<div ng-if="$ctrl.table">
+    <table id="data-table" class="table table-bordered table-hover tablesorter"> 
+        <tbody>
+            <tr>
+                <th>ED230</th>
+                <td>{{$ctrl.table.ed230FileName}}</td>
+            </tr>   
+            <tr ng-repeat="row in $ctrl.table.regModeOneList" ng-switch on="$index">
+                <th ng-switch-when="0" rowspan="{{$ctrl.table.regModeOneList.length}}">Файлы с Register Mode 1</th>
+                <td ng-click="$ctrl.chooseRegister(row.id, 1)" ng-class="{active: $ctrl.reg.modeid[0] == 1 && $ctrl.reg.modeid[1] == row.id}" class="cursor">{{row.fileName}}</td>         
+            </tr>  
+            <tr ng-repeat="row in $ctrl.table.regModeTwoList" ng-switch on="$index" valign="middle">
+                <th ng-switch-when="0" rowspan="{{$ctrl.table.regModeTwoList.length}}">Файлы с Register Mode 2</th>
+                <td ng-click="$ctrl.chooseRegister(row.id, 2)" ng-class="{active: $ctrl.reg.modeid[0] == 2 && $ctrl.reg.modeid[1] == row.id}" class="cursor">{{row.fileName}}</td>          
+            </tr>  
+            <tr ng-repeat="row in $ctrl.table.regModeThreeList" ng-switch on="$index">
+                <th ng-switch-when="0" rowspan="{{$ctrl.table.regModeThreeList.length}}">Файлы с Register Mode 3</th>
+                <td ng-click="$ctrl.chooseRegister(row.id, 3)" ng-class="{active: $ctrl.reg.modeid[0] == 3 && $ctrl.reg.modeid[1] == row.id}" class="cursor">{{row.fileName}}</td>          
+            </tr>       
+        </tbody>
+    </table>
+</div>
+<div ng-if="$ctrl.isLongTime" class="common-wait">
+    <img src="img/loading.gif" />Нужно немного подождать</div>    
+</div>
+<div ng-if="$ctrl.isTimeout" class="common-wait">
+    <p>К сожалению, нет связи с сервером</p>
+    <p><a href="" ng-click="$root.reload()" title="Перезагрузка" class="btn btn-default btn-lg" role="button">Попробовать ещё раз</a></p>    
+</div>
+<footer class="main-table-footer">
+    <div class="row">
+        <div class="col-lg-4">
+            <a href="" class="btn btn-primary" ng-click="$ctrl.getStatuses()">Просмотр актуальных статусов позиций</a>       
+        </div>
+        <div class="col-lg-4">
+            <a href="" class="btn btn-primary" ng-click="$ctrl.getRegister()" ng-disabled="$ctrl.getIfReg()">Просмотр выбранного Register Mode</a>       
+        </div>
+        <div class="col-lg-4">
+            <a href="#!/table/7" class="pull-right btn btn-default ">Назад</a>       
+        </div>
+    </div>
+</footer>

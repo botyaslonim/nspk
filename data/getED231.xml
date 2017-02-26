@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<ED231 xmlns="urn:cbr-ru:ed:v2.0" BeginProcessingDate="2016-06-16" ClearingSystemCode="03" EndProcessingDate
+="2016-06-16" EDAuthor="4583001999" EDDate="2016-06-17" EDNo="2673050" RegisterItemsQuantity="3" RegisterMode
+="2">
+   <dsig:SigValue xmlns:dsig="urn:cbr-ru:dsig:v1.1">MIIBbAYJKoZIhvcNAQcCoIIBXTCCAVkCAQExDzANBgkrBgEEAZ
+xWAQEFADALBgkqhkiG9w0BBwExggE0MIIBMAIBATBgMEwxCzAJBgNVBAYTAlJVMQswCQYDVQQIEwIwMDEPMA0GA1UEBxMGUlRHU0
+JSMQ0wCwYDVQQKEwRHQ0tJMRAwDgYDVQQDEwdBRE1JTkNBAhBANhDLhDEmrbWifuNWxXk2MA0GCSsGAQQBnFYBAQUAoGkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTYwNjE3MDgzMDA5WjAvBgkqhkiG9w0BCQQxIgQgRKUJ
+/qJJwlLqSSs1COF9JBSwgTw+mhcGMiApqp5pqHgwDQYJKwYBBAGcVgECBQAEQDIM2Uu/Cooelnp5OPlMfqwNrkwL4luPjYGf7RADUbvSWH2kjMFVeu3iXFh7KCDJrzLJ4DwdMtwn0ulzx0HrOzo
+=</dsig:SigValue>
+   <RegisterList RegisterNo="1">
+      <CrdTransfRegisterInfo BIC="044030861" DC="2" RegisterItemID="3" StatusCode="2" Sum="2500">
+         <EDRefID EDAuthor="4583001999" EDDate="2016-06-17" EDNo="692"/>
+      </CrdTransfRegisterInfo>
+      <CrdTransfRegisterInfo BIC="044525600" DC="2" RegisterItemID="4" StatusCode="2" Sum="7500">
+         <EDRefID EDAuthor="4583001999" EDDate="2016-06-17" EDNo="693"/>
+      </CrdTransfRegisterInfo>
+      <InitialED EDAuthor="4533333333" EDDate="2017-02-09" EDNo="10"/>
+   </RegisterList>
+</ED231>

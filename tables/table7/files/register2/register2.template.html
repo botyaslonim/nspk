@@ -1,0 +1,63 @@
+<header class="main-table-header">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="#!/table/7">Контроль итогов обработки ED230</a></li>
+                <li><a href="#!/table/7/files">Контроль по ED231</a></li>
+            </ol> 
+        </div>
+    </div>
+    <div class="row">       
+        <div class="col-md-12" ng-if="$ctrl.status == 3">
+            <p class="text-danger"><strong>Внимание! В файле {{$ctrl.ed230FileName}} присутствуют неоплаченные позиции</strong></p>
+        </div>
+        <div class="col-md-12" ng-if="$ctrl.status == 4">
+            <p class="text-success"><strong>Все позиции в файле {{$ctrl.ed230FileName}} имеют статус &laquo;Оплачено&raquo;</strong></p>
+        </div>
+    </div>
+    <div class="row" ng-if="$ctrl.absentStatus">
+        <div class="col-md-12">
+            <p class="text-danger"><strong>Внимание! В файле {{$ctrl.ed230FileName}} количество позиций в ED231 не соответствует количеству позиций в ED230</strong></p>
+        </div>    
+    </div>
+</header>
+<div ng-if="$ctrl.table">
+    <table id="data-table" class="table table-bordered table-hover tablesorter"> 
+        <tbody>
+            <tr>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('bic')" ng-class="$ctrl.sortClass('bic')">БИК</th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('sum')" ng-class="$ctrl.sortClass('sum')">Сумма нетто-позиции</th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('dc')" ng-class="$ctrl.sortClass('dc')">Признак Д или К</th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('registerControlStatus')" ng-class="$ctrl.sortClass('registerControlStatus')">Статус позиции</th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('fileName')" ng-class="$ctrl.sortClass('fileName')">Имя файла ED231</th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('createDate')" ng-class="$ctrl.sortClass('createDate')">Дата обработки файла ED231</th>      
+            </tr>   
+            <tr ng-repeat="row in $ctrl.table | orderBy:$ctrl.orderProp" data="row-{{row.id}}" class="{{row.className}}">         
+                <td>{{row.bic}}</td>
+                <td>{{row.sum}}</td>
+                <td>{{row.dc}}</td>
+                <td ng-if="row.registerControlStatus == 2" class="alert-success">Оплачено</td>
+                <td ng-if="row.registerControlStatus == 3" class="alert-warning">Ожидает оплаты</td>      
+                <td ng-if="row.registerControlStatus == 4" class="alert-danger">Исключено</td>
+                <td ng-if="row.registerControlStatus == 5" class="alert-danger">Неизвестный статус</td>        
+                <td ng-if="row.registerControlStatus!=5&&row.registerControlStatus!=4&&row.registerControlStatus!=3&&row.registerControlStatus!=2&&row.registerControlStatus!=1&&row.registerControlStatus!=0" class="alert-danger">Статус отсутствует</td>    
+                <td>{{row.fileName}}</td>
+                <td>{{row.createDate}}</td>
+            </tr>    
+        </tbody>
+    </table>
+</div>
+<div ng-if="$ctrl.isLongTime" class="common-wait">
+    <img src="img/loading.gif" />Нужно немного подождать</div>    
+</div>
+<div ng-if="$ctrl.isTimeout" class="common-wait">
+    <p>К сожалению, нет связи с сервером</p>
+    <p><a href="" ng-click="$root.reload()" title="Перезагрузка" class="btn btn-default btn-lg" role="button">Попробовать ещё раз</a></p>    
+</div>
+<footer class="main-table-footer">
+    <div class="row">        
+        <div class="col-lg-offset-8 col-lg-4">
+            <a href="#!/table/7/files" class="pull-right btn btn-default ">Назад</a>       
+        </div>
+    </div>
+</footer>

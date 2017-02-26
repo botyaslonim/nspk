@@ -1,0 +1,54 @@
+<header class="main-table-header">
+    <div class="row">
+        <div class="col-lg-12">
+            <form>
+                <button type="button" ng-repeat="buttons in $ctrl.buttons" ng-click="$ctrl.buttonAction(buttons.id)" ng-disabled="buttons.disabled == 1" class="{{buttons.bootstrapClass}} {{buttons.view}}">
+                    <span ng-if="buttons.id == 1">Текущий операционный день ({{$root.currentDay}})</span>
+                    <span ng-if="buttons.id != 1">{{buttons.text}}</span>
+                </button>
+            </form>
+        </div>       
+    </div>
+</header>
+<div ng-if="$ctrl.table">
+    <table id="data-table" class="table table-bordered table-hover tablesorter">
+        <thead id="data-table-head">
+            <tr>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('createDate')" ng-class="$ctrl.sortClass('createDate')">
+                    Дата создания
+                 </th>           
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('clearingSystemCode')" ng-class="$ctrl.sortClass('clearingSystemCode')">
+                    ПС
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('fileName')" ng-class="$ctrl.sortClass('fileName')">
+                    ED230
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('controlStatus')" ng-class="$ctrl.sortClass('controlStatus')">
+                    Статус реестра
+                </th>
+            </tr>           
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in $ctrl.table | orderBy:$ctrl.orderProp" data="row-{{row.id}}" class="{{row.className}}">              
+                <td>{{row.createDate}}</td>       
+                <td>{{row.clearingSystemCode}}</td>
+                <td>{{row.fileName}}</td>
+                <div ng-switch on="row.controlStatus">
+                    <td ng-if="row.controlStatus == 1" class="alert-warning"><a href="#!/table/7/files" class="non-decoration block" ng-click="$ctrl.saveId(row.id)">ВНИМАНИЕ! Позиция не проконтролирована</a></td>
+                    <td ng-if="row.controlStatus == 2" class="alert-warning"><a href="#!/table/7/files" class="non-decoration block" ng-click="$ctrl.saveId(row.id)">ВНИМАНИЕ! Позиция не оплачена</a></td>
+                    <td ng-if="row.controlStatus == 3" class="alert-danger"><a href="#!/table/7/files" class="non-decoration block" ng-click="$ctrl.saveId(row.id)">ВНИМАНИЕ! Отсутствует ED231</a></td>            
+                    <td ng-if="row.controlStatus == 4" class="alert-success"><a href="#!/table/7/files" class="non-decoration block" ng-click="$ctrl.saveId(row.id)">OK</a></td> 
+                    <td ng-if="row.controlStatus == 5" class="alert-danger"><a href="#!/table/7/files" class="non-decoration block" ng-click="$ctrl.saveId(row.id)">Позиция не оплачена</a></td> 
+                    <td ng-if="row.controlStatus != 1 && row.controlStatus != 2 && row.controlStatus != 3 && row.controlStatus != 4 && row.controlStatus != 5" class="alert-danger">Неверное представление статуса</td>
+                </div>             
+            </tr>        
+        </tbody>
+    </table>
+</div>
+<div ng-if="$ctrl.isLongTime" class="common-wait">
+    <img src="img/loading.gif" />Нужно немного подождать</div>    
+</div>
+<div ng-if="$ctrl.isTimeout" class="common-wait">
+    <p>К сожалению, нет связи с сервером</p>
+    <p><a href="" ng-click="$root.reload()" title="Перезагрузка" class="btn btn-default btn-lg" role="button">Попробовать ещё раз</a></p>    
+</div>

@@ -1,0 +1,78 @@
+<header class="main-table-header">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="#!/table/7">Контроль итогов обработки ED230</a></li>
+                <li><a href="#!/table/7/files">Контроль по ED231</a></li>
+            </ol> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8" ng-if="$ctrl.status == 5">
+            <p class="text-success"><strong>Статус нетто-позиций для файла {{$ctrl.ed230FileName}}</strong></p>
+        </div>
+        <div class="col-md-8" ng-if="$ctrl.status == 6">
+            <p class="text-danger"><strong>Error</strong></p>
+        </div>
+    </div>
+</header>
+<div ng-if="$ctrl.table">
+    <table id="data-table" class="table table-bordered table-hover"> 
+        <tbody>
+            <tr>    
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('bic')" ng-class="$ctrl.sortClass('bic')">БИК</th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('sum')" ng-class="$ctrl.sortClass('sum')">Сумма нетто-позиции</th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('dc')" ng-class="$ctrl.sortClass('dc')">Признак Д или К</th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('_registerControlStatus')" ng-class="$ctrl.sortClass('_registerControlStatus')">Статус позиции</th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('fileName')" ng-class="$ctrl.sortClass('fileName')">Имя файла ED231</th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('comment')" ng-class="$ctrl.sortClass('comment')">Комментарий по статусу позиции</th>      
+            </tr>   
+            <tr ng-repeat="row in $ctrl.table | orderBy:$ctrl.orderProp" data="row-{{row.id}}" class="{{row.className}}" ng-class="{{$ctrl.ifRegMode3}} && {{row.registerMode != '3'}} ? 'alert-danger' : ''">      
+                <td>{{row.bic}}</td>
+                <td>{{row.sum}}</td>
+                <td>{{row.dc}}</td>
+                <td ng-if="row.registerControlStatus == 0" class="alert-warning">     
+                    <a ng-if="$root.userRole == 'ADMIN' && $ctrl.ifRegMode3" href="" class="non-decoration block" title="Поменять статус" ng-click="$ctrl.changeStatusInit(row.id)">Не проконтролировано</a>        
+                    <span ng-if="$root.userRole != 'ADMIN' || !$ctrl.ifRegMode3" class="block">Не проконтролировано</span>
+                </td>
+                <td ng-if="row.registerControlStatus == 1" class="alert-success">          
+                    <a ng-if="$root.userRole == 'ADMIN' && $ctrl.ifRegMode3" href="" class="non-decoration block" title="Поменять статус" ng-click="$ctrl.changeStatusInit(row.id)">Проконтролировано</a>           
+                    <span ng-if="$root.userRole != 'ADMIN' || !$ctrl.ifRegMode3" class="block">Проконтролировано</span>
+                </td>  
+                <td ng-if="row.registerControlStatus == 2" class="alert-success">        
+                    <a ng-if="$root.userRole == 'ADMIN' && $ctrl.ifRegMode3" href="" class="non-decoration block" title="Поменять статус" ng-click="$ctrl.changeStatusInit(row.id)">Оплачено</a>              
+                    <span ng-if="$root.userRole != 'ADMIN' || !$ctrl.ifRegMode3" class="block">Оплачено</span>
+                </td>
+                <td ng-if="row.registerControlStatus == 3" class="alert-warning">   
+                    <a ng-if="$root.userRole == 'ADMIN' && $ctrl.ifRegMode3" href="" class="non-decoration block" title="Поменять статус" ng-click="$ctrl.changeStatusInit(row.id)">Ожидает оплаты</a>              
+                    <span ng-if="$root.userRole != 'ADMIN' || !$ctrl.ifRegMode3" class="block">Ожидает оплаты</span>
+                </td>   
+                <td ng-if="row.registerControlStatus == 4" class="alert-danger">
+                    <a ng-if="$root.userRole == 'ADMIN' && $ctrl.ifRegMode3" href="" class="non-decoration block" title="Поменять статус" ng-click="$ctrl.changeStatusInit(row.id)">Исключено</a>
+                    <span ng-if="$root.userRole != 'ADMIN' || !$ctrl.ifRegMode3" class="block">Исключено</span>
+                </td>           
+                <td ng-if="row.registerControlStatus == 5" class="alert-danger"> 
+                    <a ng-if="$root.userRole == 'ADMIN' && $ctrl.ifRegMode3" href="" class="non-decoration block" title="Поменять статус" ng-click="$ctrl.changeStatusInit(row.id)">Неизвестный статус</a>   
+                    <span ng-if="$root.userRole != 'ADMIN' || !$ctrl.ifRegMode3" class="block">Неизвестный статус</span>
+                </td>    
+                <td ng-if="row.registerControlStatus!=5&&row.registerControlStatus!=4&&row.registerControlStatus!=3&&row.registerControlStatus!=2&&row.registerControlStatus!=1&&row.registerControlStatus!=0" class="alert-danger">Статус отсутствует</td>                    
+                <td>{{row.fileName}}</td>
+                <td>{{row.comment}}</td>
+            </tr>    
+        </tbody>
+    </table>
+</div>
+<div ng-if="$ctrl.isLongTime" class="common-wait">
+    <img src="img/loading.gif" />Нужно немного подождать</div>    
+</div>
+<div ng-if="$ctrl.isTimeout" class="common-wait">
+    <p>К сожалению, нет связи с сервером</p>
+    <p><a href="" ng-click="$root.reload()" title="Перезагрузка" class="btn btn-default btn-lg" role="button">Попробовать ещё раз</a></p>    
+</div>
+<footer class="main-table-footer">
+    <div class="row">        
+        <div class="col-lg-offset-8 col-lg-4">
+            <a href="#!/table/7/files" class="pull-right btn btn-default ">Назад</a>       
+        </div>
+    </div>
+</footer>

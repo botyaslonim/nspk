@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<dataset query='select SCHEME, abs(NET_AMOUNT) as NET_AMOUNT, TRANSFER_BIC, SIGN as DC, ENTITY_ID as
+ ID from BO_RU_NET2STL where INSERT_DT = (select max(INSERT_DT) from BO_RU_NET2STL) '>
+   <record>
+      <field name='SCHEME' value='0001' type='CHAR' length='4' decimal='0'/>
+      <field name='NET_AMOUNT' value='25.00' type='DECIMAL' length='19' decimal='2'/>
+      <field name='TRANSFER_BIC' value='040147781' type='CHAR' length='10' decimal='0'/>
+      <field name='DC' value='D' type='CHAR' length='1' decimal='0'/>
+      <field name='ID' value='80000001' type='INTEGER' length='11' decimal='0'/>
+	<field name='CPD' value='2016-11-12 14:42:02' type='CHAR' length='19' decimal='0'/>
+   </record>
+   <record>
+      <field name='SCHEME' value='0001' type='CHAR' length='4' decimal='0'/>
+      <field name='NET_AMOUNT' value='75.00' type='DECIMAL' length='19' decimal='2'/>
+      <field name='TRANSFER_BIC' value='044583503' type='CHAR' length='10' decimal='0'/>
+      <field name='DC' value='D' type='CHAR' length='1' decimal='0'/>
+      <field name='ID' value='80000002' type='INTEGER' length='11' decimal='0'/>
+	<field name='CPD' value='2016-11-12 14:42:02' type='CHAR' length='19' decimal='0'/>
+   </record>
+   <record>
+      <field name='SCHEME' value='0001' type='CHAR' length='4' decimal='0'/>
+      <field name='NET_AMOUNT' value='25.00' type='DECIMAL' length='19' decimal='2'/>
+      <field name='TRANSFER_BIC' value='044030861' type='CHAR' length='10' decimal='0'/>
+      <field name='DC' value='C' type='CHAR' length='1' decimal='0'/>
+      <field name='ID' value='80000003' type='INTEGER' length='11' decimal='0'/>
+	<field name='CPD' value='2016-11-12 14:42:02' type='CHAR' length='19' decimal='0'/>
+   </record>
+   <record>
+      <field name='SCHEME' value='0001' type='CHAR' length='4' decimal='0'/>
+      <field name='NET_AMOUNT' value='75.00' type='DECIMAL' length='19' decimal='2'/>
+      <field name='TRANSFER_BIC' value='044525600' type='CHAR' length='10' decimal='0'/>
+      <field name='DC' value='C' type='CHAR' length='1' decimal='0'/>
+      <field name='ID' value='80000004' type='INTEGER' length='11' decimal='0'/>
+	<field name='CPD' value='2016-11-12 14:42:02' type='CHAR' length='19' decimal='0'/>
+   </record>
+</dataset>

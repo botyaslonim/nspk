@@ -1,0 +1,76 @@
+<header class="main-table-header">
+    <div class="row">
+        <div class="col-lg-12">
+            <form>
+                <button type="button" ng-repeat="buttons in $ctrl.buttons" ng-click="$ctrl.buttonAction(buttons.id)" ng-disabled="buttons.disabled == 1" class="{{buttons.bootstrapClass}} {{buttons.view}}">
+                    <span ng-if="buttons.id == 1">Текущий операционный день ({{$root.currentDay}})</span>
+                    <span ng-if="buttons.id != 1">{{buttons.text}}</span>
+                </button>
+            </form>
+        </div>       
+    </div>
+</header>
+<div ng-if="$ctrl.table">
+    <table id="data-table" class="table table-bordered table-hover tablesorter">
+        <thead id="data-table-head">
+            <tr>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('createDate')" ng-class="$ctrl.sortClass('createDate')">
+                    Дата загрузки
+                 </th>           
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('fileName')" ng-class="$ctrl.sortClass('fileName')">
+                    Имя файла
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('type')" ng-class="$ctrl.sortClass('type')">
+                    Тип ЭС
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('clearingSystemCode')" ng-class="$ctrl.sortClass('clearingSystemCode')">
+                    ПС
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('registerItemsQuantity')" ng-class="$ctrl.sortClass('registerItemsQuantity')">
+                    Количество позиций
+                </th>            
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('registerMode')" ng-class="$ctrl.sortClass('registerMode')">
+                    Register Mode
+                </th>
+                <th class="th-sortable no-sc" ng-click="$ctrl.sort('control')" ng-class="$ctrl.sortClass('control')">
+                    Контроль
+                </th>
+                <th>
+                    Документ
+                </th>
+            </tr>           
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in $ctrl.table | orderBy:$ctrl.orderProp" data="row-{{row.id}}">
+                <td>{{row.createDate}}</td>       
+                <td>{{row.fileName}}</td>
+                <td>{{row.type}}</td>
+                <div ng-switch on="row.clearingSystemCode">
+                    <td ng-if="row.clearingSystemCode == '01'">Visa</td>       
+                    <td ng-if="row.clearingSystemCode == '02'">MC</td>    
+                    <td ng-if="row.clearingSystemCode == '03'">MIR</td>    
+                    <td ng-if="row.clearingSystemCode == '04'">UPI</td>    
+                    <td ng-if="row.clearingSystemCode == '05'">JCB</td>    
+                    <td ng-if="row.clearingSystemCode == '06'">AmEx</td>    
+                    <td ng-if="row.clearingSystemCode != '01' && row.clearingSystemCode != '02' && row.clearingSystemCode != '03' && row.clearingSystemCode != '04' && row.clearingSystemCode != '05' && row.clearingSystemCode != '06'">Не определена</td> 
+                </div>            
+                <td>{{row.registerItemsQuantity}}</td>           
+                <td>{{row.registerMode}}</td>   
+                <div ng-switch on="row.control">
+                    <td ng-if="row.control == 'OK'" class="success">OK</td>              
+                    <td ng-if="row.control == 'ERROR'" class="danger">Error</td>    
+                    <td ng-if="row.control == 'NOED230'" class="warning">Не найден исходный ED230</td>  
+                    <td ng-if="row.control != 'OK' && row.control != 'ERROR' && row.control != 'NOED230'">Статус неопределён</td>
+                </div>            
+                <td class="get-document"><a class="btn btn-default" href="" ng-click="$ctrl.getDocument(row.id, row.fileName)" role="button">Посмотреть</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-if="$ctrl.isLongTime" class="common-wait">
+    <img src="img/loading.gif" />Нужно немного подождать</div>    
+</div>
+<div ng-if="$ctrl.isTimeout" class="common-wait">
+    <p>К сожалению, нет связи с сервером</p>
+    <p><a href="" ng-click="$root.reload()" title="Перезагрузка" class="btn btn-default btn-lg" role="button">Попробовать ещё раз</a></p>    
+</div>
